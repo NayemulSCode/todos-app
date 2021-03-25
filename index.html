@@ -12,5 +12,27 @@
         <input type="text" placeholder="Name" name="name">
         <button type="submit">submit</button>
     </form>
+    <div id="todos">
+
+    </div>
+    <script>
+        function loadAllTodos(){
+            fetch('/todos')
+            .then(res => res.json())
+            .then(todos =>{
+                console.log(todos);
+                const container = document.getElementById('todos');
+                todos.forEach(todo =>{
+                    const p = document.createElement('p');
+                    p.innerHTML = `
+                        ${todo.name}
+                    `;
+                    container.appendChild(p);
+                })
+            })
+
+        }
+        loadAllTodos();
+    </script>
 </body>
 </html>

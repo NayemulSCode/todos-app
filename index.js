@@ -26,6 +26,13 @@ client.connect(err => {
           res.redirect('/');
       })
   })
+  //read to frontend
+  app.get('/todos',(req,res) =>{
+      collection.find({}).limit(20)
+      .toArray((err, results) =>{
+          res.send(results);
+      })
+  })
 
 });
 
