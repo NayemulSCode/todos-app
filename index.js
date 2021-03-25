@@ -1,5 +1,6 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 
 const app = express();
 app.use(express.json());
@@ -18,7 +19,6 @@ client.connect(err => {
   // create todos
   app.post('/addTodos', (req, res) => {
       const todos = req.body;
-      console.log("todos body");
       collection.insertOne(todos)
       .then(result =>{
           console.log("todos added");
@@ -33,7 +33,13 @@ client.connect(err => {
           res.send(results);
       })
   })
-
+  //load single todos send for editable form
+  app.get('/todo/:id',(req, res) =>{
+    collection.find({_id: ObjectId(req.params.id)})
+    .toArray((err, result) =>{
+      res.send(result[0]);
+    })
+  })
 });
 
 

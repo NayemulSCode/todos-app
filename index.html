@@ -15,6 +15,9 @@
     <div id="todos">
 
     </div>
+    <div id="update">
+
+    </div>
     <script>
         function loadAllTodos(){
             fetch('/todos')
@@ -26,6 +29,7 @@
                     const p = document.createElement('p');
                     p.innerHTML = `
                         ${todo.name}
+                        <button onclick="loadTodo('${todo._id}')">Update</button>
                     `;
                     container.appendChild(p);
                 })
@@ -33,6 +37,18 @@
 
         }
         loadAllTodos();
+        // todos fetch in editable form
+        function loadTodo(id){
+            fetch(`/todo/${id}`)
+            .then( res=> res.json())
+            .then(data =>{
+                const update = document.getElementById('update');
+                update.innerHTML =`
+                    Title: <input type="text" value="${data.name}" id="name">
+                <br>
+                `;
+            })
+        }
     </script>
 </body>
 </html>
