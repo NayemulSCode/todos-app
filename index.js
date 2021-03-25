@@ -40,6 +40,15 @@ client.connect(err => {
       res.send(result[0]);
     })
   })
+  //update todos
+  app.patch('/update/:id',(req,res) =>{
+    collection.updateOne({_id: ObjectId(req.params.id)},{
+      $set: {name: req.body.name}
+    })
+    .then(result =>{
+      res.send(result.modifiedCount>0);
+    })
+  })
 });
 
 

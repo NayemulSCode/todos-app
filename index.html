@@ -25,6 +25,7 @@
             .then(todos =>{
                 console.log(todos);
                 const container = document.getElementById('todos');
+                container.innerHTML = '';
                 todos.forEach(todo =>{
                     const p = document.createElement('p');
                     p.innerHTML = `
@@ -46,7 +47,25 @@
                 update.innerHTML =`
                     Title: <input type="text" value="${data.name}" id="name">
                 <br>
+                <button onclick="updateTodo('${data._id}')">Update Todo</button>
                 `;
+            })
+        }
+        //update todos
+        function updateTodo(id){
+            const name = document.getElementById('name').value;
+            const todo = {id,name}
+            fetch(`/update/${id}`,{
+                method: 'PATCH',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(todo)
+            })
+            .then(res => res.json())
+            .then(data =>{
+                if(data){
+                    loadAllTodos();
+                    document.getElementById('update').innerHTML = '';
+                }
             })
         }
     </script>
